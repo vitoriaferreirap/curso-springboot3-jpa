@@ -2,10 +2,21 @@ package com.vitoriaferreira.curso.entities;
 
 import java.io.Serializable;
 
-//interface para que os obj pos possam ser convertidos em cadeia de  bytes
-public class User implements Serializable {
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
+//Serializeble = interface para que os obj pos possam ser convertidos em cadeia de  bytes
+
+@Entity // JPA mapea a classe User para uma tabela no banco de dados
+@Table(name = "tb_user") // nome da tabela no banco de dados
+public class User implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    @Id // JPA identifica o atributo id como a chave primária da tabela
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // auto incremento id
     private Long id;
     private String name;
     private String email;
