@@ -1,11 +1,14 @@
 package com.vitoriaferreira.curso.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 //Serializeble = interface para que os obj pos possam ser convertidos em cadeia de  bytes
@@ -22,6 +25,9 @@ public class User implements Serializable {
     private String email;
     private String phone;
     private String password;
+
+    @OneToMany(mappedBy = "client") // associação um para muitos com a classe Order
+    private List<Order> orders = new ArrayList<>(); // associação com a classe Order e inicializa a lista
 
     public User() {
     }
@@ -72,6 +78,10 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Order> getOrders() { // apenas get para listas(colecoes)
+        return orders;
     }
 
     // comparação de objetos
