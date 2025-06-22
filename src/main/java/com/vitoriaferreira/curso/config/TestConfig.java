@@ -10,10 +10,12 @@ import org.springframework.context.annotation.Profile;
 
 import com.vitoriaferreira.curso.entities.Category;
 import com.vitoriaferreira.curso.entities.Order;
+import com.vitoriaferreira.curso.entities.OrderItem;
 import com.vitoriaferreira.curso.entities.Product;
 import com.vitoriaferreira.curso.entities.User;
 import com.vitoriaferreira.curso.entities.enums.OrderStatus;
 import com.vitoriaferreira.curso.repositories.CategoryRepository;
+import com.vitoriaferreira.curso.repositories.OrderItemRepository;
 import com.vitoriaferreira.curso.repositories.OrderRepository;
 import com.vitoriaferreira.curso.repositories.ProductRepository;
 import com.vitoriaferreira.curso.repositories.UserRepository;
@@ -22,7 +24,7 @@ import com.vitoriaferreira.curso.repositories.UserRepository;
 @Profile("test") // Anotação que indica que essa configuração é para o perfil"test"
 public class TestConfig implements CommandLineRunner {
 
-    // depende do user (injeção de dependência)
+    // depende do user (injeção de dependência (injeta repositories))
     @Autowired
     private UserRepository userRepository;
 
@@ -34,6 +36,9 @@ public class TestConfig implements CommandLineRunner {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     @Override
     // Método que será executado quando a aplicação for iniciada
@@ -72,6 +77,13 @@ public class TestConfig implements CommandLineRunner {
 
         userRepository.saveAll(Arrays.asList(u1, u2)); // Salva os usuários no banco de dados envia lista
         orderRepository.saveAll(Arrays.asList(o1, o2, o3)); // Salva os pedidos no banco de dados envia lista
+
+        OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
+        OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
+        OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
+        OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
+
+        orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
     }
 
 }
