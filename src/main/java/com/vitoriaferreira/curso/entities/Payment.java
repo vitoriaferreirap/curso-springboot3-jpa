@@ -3,6 +3,8 @@ package com.vitoriaferreira.curso.entities;
 import java.io.Serializable;
 import java.time.Instant;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,6 +24,7 @@ public class Payment implements Serializable {
     private Long id;
     private Instant moment;
 
+    @JsonIgnore // não serializa o objeto Order no JSON
     @OneToOne // associação 1 para 1
     @MapsId
     private Order order;
