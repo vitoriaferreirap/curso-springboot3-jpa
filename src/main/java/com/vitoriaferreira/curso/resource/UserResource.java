@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,6 +46,13 @@ public class UserResource {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(obj.getId()).toUri(); // Cria a URI do novo recurso
         return ResponseEntity.created(uri).body(obj); // Retorna a resposta com o usuário criado
+    }
+
+    // endpoint para deletar um usuário
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) { // void - não retorna nenhum body
+        service.delete(id); // Chama o serviço (operação delete) para deletar o usuário
+        return ResponseEntity.noContent().build(); // Retorna uma resposta sem conteúdo (204 No Content)
     }
 
 }
