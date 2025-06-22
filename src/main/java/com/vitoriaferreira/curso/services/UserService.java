@@ -13,6 +13,8 @@ import com.vitoriaferreira.curso.repositories.UserRepository;
 import com.vitoriaferreira.curso.services.exceptions.DatabaseException;
 import com.vitoriaferreira.curso.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 //temque ser registrado como componente pois  UserResource depende do UserService
 @Service
 public class UserService {
@@ -45,9 +47,13 @@ public class UserService {
     }
 
     public User update(Long id, User obj) {
-        User entity = findById(id);
-        updateData(entity, obj);
-        return repository.save(entity);
+        try {
+            User entity = findById(id);
+            updateData(entity, obj);
+            return repository.save(entity);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException(id);
+        }
     }
 
     private void updateData(User entity, User obj) { // recebe dados que serão atualizados

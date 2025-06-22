@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @ControllerAdvice // Anotação que indica que essa classe irá tratar exceções de recursos
 public class ResourceExceptionHandler {
+
     @ExceptionHandler(ResourceNotFoundException.class) // tratar a exceção ResourceNotFoundException
     public ResponseEntity<StandardError> resourceNotFound(ResourceNotFoundException e, HttpServletRequest request) {
         String error = "Resource not found";
