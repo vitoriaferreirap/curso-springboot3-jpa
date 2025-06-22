@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.vitoriaferreira.curso.entities.User;
 import com.vitoriaferreira.curso.repositories.UserRepository;
+import com.vitoriaferreira.curso.services.exceptions.ResourceNotFoundException;
 
 //temque ser registrado como componente pois  UserResource depende do UserService
 @Service
@@ -22,7 +23,7 @@ public class UserService {
 
     public User findById(Long id) {
         Optional<User> obj = repository.findById(id);
-        return obj.get();
+        return obj.orElseThrow(() -> new ResourceNotFoundException(id)); // se não encontrar, lança exceção
     }
 
     // operações
