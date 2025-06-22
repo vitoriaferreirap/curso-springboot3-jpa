@@ -13,7 +13,7 @@ import com.vitoriaferreira.curso.entities.Category;
 import com.vitoriaferreira.curso.services.CategoryService;
 
 @RestController // indica q classe é um controlador REST
-@RequestMapping(value = "/category") // mapeia a URL base para os recursos dessa classe
+@RequestMapping(value = "/categories") // mapeia a URL base para os recursos dessa classe
 public class CategoryResource {
 
     // UserResource depende do OrderService
