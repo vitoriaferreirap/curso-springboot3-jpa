@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import com.vitoriaferreira.curso.entities.Category;
 import com.vitoriaferreira.curso.entities.Order;
 import com.vitoriaferreira.curso.entities.OrderItem;
+import com.vitoriaferreira.curso.entities.Payment;
 import com.vitoriaferreira.curso.entities.Product;
 import com.vitoriaferreira.curso.entities.User;
 import com.vitoriaferreira.curso.entities.enums.OrderStatus;
@@ -84,6 +85,13 @@ public class TestConfig implements CommandLineRunner {
         OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
 
         orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
+
+        // associando um pagamento a um pedido
+        Payment pay1 = new Payment(null, Instant.parse("2019-06-20T21:53:07Z"), o1);
+        // salvar obj independente um para um
+        o1.setPayment(pay1); // Associa o pagamento ao pedido
+        orderRepository.save(o1); // Salva o pedido com o pagamento associado
+
     }
 
 }
