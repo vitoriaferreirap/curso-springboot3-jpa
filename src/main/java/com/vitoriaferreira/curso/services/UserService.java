@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.vitoriaferreira.curso.entities.User;
 import com.vitoriaferreira.curso.repositories.UserRepository;
+import com.vitoriaferreira.curso.services.exceptions.DatabaseException;
 import com.vitoriaferreira.curso.services.exceptions.ResourceNotFoundException;
 
 //temque ser registrado como componente pois  UserResource depende do UserService
@@ -23,7 +26,7 @@ public class UserService {
 
     public User findById(Long id) {
         Optional<User> obj = repository.findById(id);
-        return obj.orElseThrow(() -> new ResourceNotFoundException(id)); // se não encontrar, lança exceção
+        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     // operações
@@ -31,10 +34,14 @@ public class UserService {
         return repository.save(obj);
     }
 
-    public User delete(Long id) {
-        User obj = findById(id);
-        repository.deleteById(id);
-        return obj;
+    public void delete(Long id) {
+        try {
+            repository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException(e.getMessage());
+        }
     }
 
     public User update(Long id, User obj) {

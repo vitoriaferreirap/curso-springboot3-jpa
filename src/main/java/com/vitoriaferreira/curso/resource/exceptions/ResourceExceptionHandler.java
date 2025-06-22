@@ -21,4 +21,14 @@ public class ResourceExceptionHandler {
                 request.getRequestURI());
         return ResponseEntity.status(status).body(err); // Retorna a resposta com o erro formatado
     }
+
+    @ExceptionHandler(Exception.class) // Tratar todas as outras exceções
+    public ResponseEntity<StandardError> database(Exception e, HttpServletRequest request) {
+        String error = "Database error";
+        HttpStatus status = HttpStatus.BAD_REQUEST; // Define o status HTTP como BAD_REQUEST (400)
+        StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(),
+                request.getRequestURI());
+        return ResponseEntity.status(status).body(err); // Retorna a resposta com o erro formatado
+    }
+
 }
